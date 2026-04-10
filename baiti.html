@@ -1,15 +1,72 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <title>Datu aprēķins</title>
+    <style>
+        .forma {
+            border: 1px solid black;
+            padding: 20px;
+            width: 550px;
+            font-family: sans-serif;
+            background-color: white;
+        }
+        input[type="text"] {
+            border: 1px solid #ccc;
+            margin: 5px;
+            padding: 2px;
+        }
+        .controls {
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function aprekinat() {
+            var sekundeVal = document.getElementById("sekundes").value;
+            var sekunde = parseFloat(sekundeVal);
+            
+            if (isNaN(sekunde)) return;
+
+            var atrumsMbps = 25;
+            // Baiti = (sekundes * Megabiti) / 8
+            var baiti = (sekunde * atrumsMbps * 1000000) / 8;
+            
+            var rezultats = 0;
+            if (document.getElementById("rad_kib").checked) {
+                rezultats = baiti / 1024;
+            } else if (document.getElementById("rad_kb").checked) {
+                rezultats = baiti / 1000;
+            }
+            
+            document.getElementById("atbilde").value = rezultats;
+        }
+
+        function notiritFormu() {
+            document.getElementById("sekundes").value = "";
+            document.getElementById("atbilde").value = "";
+            document.getElementById("rad_kib").checked = false;
+            document.getElementById("rad_kb").checked = false;
+        }
+    </script>
+</head>
+<body>
+
+    <div class="forma">
+        <p>
+            Aprēķināt cik daudz informācijas var lejupielādēt 
+            <input type="text" id="sekundes" style="width: 100px;" onfocus="notiritFormu()"> sekundēs, 
+            ja interneta ātrums ir 25 Mbps.
+        </p>
+        
+        <p>Atbilde</p>
+        <p>
+            <input type="text" id="atbilde" readonly>
+            <span class="controls">
+                <input type="radio" name="mērvienība" id="rad_kib" onclick="aprekinat()"> KiB
+                <input type="radio" name="mērvienība" id="rad_kb" onclick="aprekinat()"> KB
+            </span>
+        </p>
+    </div>
+
+</body>
 </html>
